@@ -19,6 +19,9 @@ module AntiSmoker
       client.timeout = timeout
       response = client.call(*message)
       response_ok(response)
+    rescue MessagePack::RPC::ConnectionTimeoutError => error
+      logger.debug("timed out: #{self}: #{error}")
+      false
     rescue => error
       logger.warn("unknown error: #{self}: #{error}")
       false
